@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  chatgpt-slackbot-server:
+    build: ./server
+    ports:
+      - 30089:30089
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      - SERVER_PORT=30089
