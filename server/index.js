@@ -1,11 +1,11 @@
 import express from 'express'
 import cors from 'cors'
-import {App} from "@slack/bolt";
+const {App} = require("@slack/bolt")
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { logger } from './src/helpers/logger.js'
-import routes from './src/routes/index.js'
+// import { logger } from './src/helpers/logger.js'
+// import routes from './src/routes/index.js'
 
 // const server = express()
 // server.use(cors())
