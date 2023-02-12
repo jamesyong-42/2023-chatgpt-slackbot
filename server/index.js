@@ -7,7 +7,8 @@ dotenv.config()
 import { ChatGPTAPI } from 'chatgpt'
 
 const api = new ChatGPTAPI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
+  debug: true
 })
 const chatGPTSend = async (msg) => {
   const res = await api.sendMessage(msg)
@@ -29,8 +30,9 @@ const app = new App({
 })();
 
 app.message(async ({ message, say }) => {
+  console.log(`received: ${message.text}`)
   try {
-    const response = await chatGPTSend(message)
+    const response = await chatGPTSend(message.text)
     say(response)
   } catch (error) {
     console.log("err")
