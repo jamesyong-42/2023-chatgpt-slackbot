@@ -30,8 +30,8 @@ import routes from './src/routes/index.js'
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
-  socketMode:true, // enable the following to use socket mode
-  appToken: process.env.APP_TOKEN
+  // socketMode:true, // enable the following to use socket mode
+  // appToken: process.env.APP_TOKEN
 });
 
 (async () => {
