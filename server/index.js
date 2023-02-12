@@ -1,31 +1,19 @@
-import express from 'express'
-import cors from 'cors'
-const {App} = require("@slack/bolt")
+import SlackBots from '@slack/bolt'
 import dotenv from 'dotenv'
+const {App} = SlackBots
+
 dotenv.config()
 
-// import { logger } from './src/helpers/logger.js'
-// import routes from './src/routes/index.js'
+import { ChatGPTAPI } from 'chatgpt'
 
-// const server = express()
-// server.use(cors())
-// server.use(express.json())
-//
-// server.listen(process.env.SERVER_PORT, () => {
-//   logger.info(`static server is running on port ${process.env.SERVER_PORT}`)
-//
-// })
-//
-// server.use('/test', (req, res) => {
-//   // console.log(req)
-//   return res.status(200).send('good')
-// })
-
-
-// server.use('/api/sign', routes.sign)
-// server.use('/api/test', routes.test)
-// server.use('/chat', routes.chat)
-
+const api = new ChatGPTAPI({
+  apiKey: process.env.OPENAI_API_KEY
+})
+const chatGPTSend = async (msg) => {
+  const res = await api.sendMessage(msg)
+  console.log(res.text)
+  return res.text
+}
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -35,15 +23,15 @@ const app = new App({
 });
 
 (async () => {
-  const port = 3000
   // Start your app
-  await app.start(process.env.SERVER_PORT || port);
-  console.log(`⚡️ Slack Bolt app is running on port ${port}!`);
+  await app.start(process.env.SERVER_PORT);
+  console.log(`⚡️ Slack Bolt app is running on port ${process.env.SERVER_PORT}!`);
 })();
 
-app.message("hey", async ({ command, say }) => {
+app.message(async ({ message, say }) => {
   try {
-    say("Yaaay! that command works!");
+    const response = await chatGPTSend(message)
+    say(response)
   } catch (error) {
     console.log("err")
     console.error(error);
